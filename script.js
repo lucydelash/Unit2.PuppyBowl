@@ -1,7 +1,7 @@
 // Use the API_URL variable to make fetch requests to the API.
 // Replace the placeholder with your cohort name (ex: 2109-UNF-HY-WEB-PT)
-const cohortName = "YOUR COHORT NAME HERE";
-const API_URL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}`;
+const cohortName = "2402-FTB-ET-WEB-FT";
+const API_URL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/players`;
 
 /**
  * Fetches all players from the API.
@@ -9,9 +9,12 @@ const API_URL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}`;
  */
 const fetchAllPlayers = async () => {
   try {
-    // TODO
+    const response = await fetch(API_URL);
+    const players = await response.json();
+    return players;
   } catch (err) {
     console.error("Uh oh, trouble fetching players!", err);
+    return [];
   }
 };
 
@@ -22,9 +25,12 @@ const fetchAllPlayers = async () => {
  */
 const fetchSinglePlayer = async (playerId) => {
   try {
-    // TODO
+    const response = await fetch(`${API_URL}/${playerId}`);
+    const player = await response.json();
+    return player; 
   } catch (err) {
     console.error(`Oh no, trouble fetching player #${playerId}!`, err);
+    return null;
   }
 };
 
@@ -35,9 +41,20 @@ const fetchSinglePlayer = async (playerId) => {
  */
 const addNewPlayer = async (playerObj) => {
   try {
-    // TODO
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(playerObj)
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add new player');
+    }
+
+    const addedPlayer = await response.json();
+    return addedPlayer;
   } catch (err) {
     console.error("Oops, something went wrong with adding that player!", err);
+    return null;
   }
 };
 
@@ -75,8 +92,21 @@ const removePlayer = async (playerId) => {
  * Note: this function should replace the current contents of `<main>`, not append to it.
  * @param {Object[]} playerList - an array of player objects
  */
-const renderAllPlayers = (playerList) => {
-  // TODO
+const renderAllPlayers = async (playerList) => {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(playerObj)
+    });
+
+    if (!response.ok) throw new Error('Failed to add new player');
+
+    return await response.json();
+  } catch (err) {
+    console.error("Oops, something went wrong with fetching all players!", err);
+    return null;
+  }
 };
 
 /**
@@ -92,8 +122,21 @@ const renderAllPlayers = (playerList) => {
  * will call `renderAllPlayers` to re-render the full list of players.
  * @param {Object} player an object representing a single player
  */
-const renderSinglePlayer = (player) => {
-  // TODO
+const renderSinglePlayer = async (player) => {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(playerObj)
+    });
+
+    if (!response.ok) throw new Error('Failed to add new player');
+
+    return await response.json();
+  } catch (err) {
+    console.error("Oops, something went wrong with adding that player!", err);
+    return null;
+  }
 };
 
 /**
